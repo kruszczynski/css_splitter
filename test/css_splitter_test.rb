@@ -27,6 +27,13 @@ class CssSplitterTest < ActiveSupport::TestCase
     assert_equal "#{"#test{background-color:green}" * 100}#{blue}\n", assets["combined_split2"].to_s
   end
 
+  test "should not separate keyframes declarations" do
+    green = "#test{background-color:green}" * (CssSplitter::Splitter::MAX_SELECTORS_DEFAULT - 1)
+    keyframes = "@keyframes my-anim{0%{top:0px}20%{top:20px}40%{top:40px}60%{top:60px}80%{top:80px}100%{top:100px}}"
+    assert_equal "#{green}#{keyframes}\n", assets["keyframes"].to_s
+    assert_equal "#{keyframes}", assets["keyframes_split2"].to_s
+  end
+
   private
 
   def clear_assets_cache
