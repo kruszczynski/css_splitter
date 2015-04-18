@@ -58,6 +58,12 @@ module Dummy
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    config.assets.configure do |env|
+      if Rails.env.development? || Rails.env.test?
+        env.cache = ActiveSupport::Cache.lookup_store(:memory_store)
+      end
+    end
   end
 end
 

@@ -1,3 +1,5 @@
+require 'css_splitter/string_to_rules'
+
 module CssSplitter
 
   class Splitter
@@ -12,7 +14,7 @@ module CssSplitter
 
     # splits string into array of rules (also strips comments)
     def self.split_string_into_rules(css_string)
-      strip_comments(css_string).chomp.scan /[^}]*}/
+      StringToRules.new(css_string).call
     end
 
     # extracts the specified part of an overlong CSS string

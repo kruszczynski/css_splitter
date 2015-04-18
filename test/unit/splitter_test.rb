@@ -20,26 +20,6 @@ class CssSplitterTest < ActiveSupport::TestCase
     assert_equal ["a{foo:bar;}", "b{baz:qux;}"], CssSplitter::Splitter.split_string_into_rules(simple)
   end
 
-  test '#split_string_into_rules for single line comments' do
-    multi_line = "a{foo:bar;} /* comment p{bar:foo;} */ b{baz:qux;}"
-    assert_equal ["a{foo:bar;}", "  b{baz:qux;}"], CssSplitter::Splitter.split_string_into_rules(multi_line)
-  end
-
-  test '#split_string_into_rules for multiline comments' do
-    multi_line = "a{foo:bar;}\n/*\nMultiline comment p{bar:foo;}\n*/\nb{baz:qux;}"
-    assert_equal ["a{foo:bar;}", "\n\nb{baz:qux;}"], CssSplitter::Splitter.split_string_into_rules(multi_line)
-  end
-
-  test '#split_string_into_rules for strings with protocol independent urls' do
-    simple = "a{foo:url(//assets.server.com);}b{bar:url(//assets/server.com);}"
-    assert_equal ["a{foo:url(//assets.server.com);}", "b{bar:url(//assets/server.com);}"], CssSplitter::Splitter.split_string_into_rules(simple)
-  end
-
-  test '#split_string_into_rules containing media queries' do
-    has_media = "a{foo:bar;}@media print{b{baz:qux;}c{quux:corge;}}d{grault:garply;}"
-    assert_equal ["a{foo:bar;}", "@media print{b{baz:qux;}", "c{quux:corge;}", "}", "d{grault:garply;}"], CssSplitter::Splitter.split_string_into_rules(has_media)
-  end
-
   # --- extract_charset ---
 
   test '#extract_charset with no charset' do
